@@ -1,6 +1,6 @@
 # Lab03 – Caracterizando a Atividade de Code Review no GitHub
 
-## 📌 Descrição
+##  Descrição
 Este projeto faz parte do laboratório da disciplina **Laboratório de Experimentação de Software**.  
 O objetivo é coletar e analisar dados de *Pull Requests (PRs)* de repositórios populares no GitHub, para caracterizar a atividade de *code review*.  
 
@@ -26,3 +26,7 @@ O objetivo é coletar e analisar dados de *Pull Requests (PRs)* de repositórios
 
 pip install -r requirements.txt
 python scripts/coletar_prs.py
+
+## Membros 
+- André Almeida Silva
+- Davi Aguilar Nunes 
