@@ -1,3 +1,6 @@
 requests
 pandas
 scipy
+matplotlib
+seaborn
+python-dotenv
