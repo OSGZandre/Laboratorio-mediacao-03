@@ -2,22 +2,35 @@ import requests
 import pandas as pd
 from utils import calcular_tempo_analise
 
-TOKEN = "SEU_TOKEN_AQUI" 
+TOKEN = "" 
 HEADERS = {"Authorization": f"token {TOKEN}"}
 
-# Lista de repositórios selecionados
-REPOS = [
-    "torvalds/linux",
-    "microsoft/vscode",
-    "facebook/react",
-    "tensorflow/tensorflow",
-    "vuejs/vue",
-    "angular/angular",
-    "kubernetes/kubernetes",
-    "django/django",
-    "pytorch/pytorch",
-    "flutter/flutter"
-]
+def get_top_repos(n=200):
+    repos = []
+    per_page = 100
+    pages_needed = (n // per_page) + 1
+    for page in range(1, pages_needed + 1):
+        url = "https://api.github.com/search/repositories"
+        params = {
+            "q": "stars:>1",
+            "sort": "stars",
+            "order": "desc",
+            "per_page": per_page,
+            "page": page
+        }
+        r = requests.get(url, headers=HEADERS, params=params)
+        if r.status_code != 200:
+            print(f"Erro ao buscar repositórios populares: {r.status_code}")
+            break
+        data = r.json()
+        items = data.get("items", [])
+        if not items:
+            break
+        for item in items:
+            repos.append(item["full_name"])
+        if len(repos) >= n:
+            break
+    return repos[:n]
 
 def coletar_prs(repo, max_pages=3):
     dados = []
@@ -57,6 +70,7 @@ def coletar_prs(repo, max_pages=3):
     return dados
 
 if __name__ == "__main__":
+    REPOS = get_top_repos(200)
     todos_prs = []
     for repo in REPOS:
         prs_repo = coletar_prs(repo, max_pages=5)
