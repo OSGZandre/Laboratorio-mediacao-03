@@ -1,9 +1,11 @@
 import requests
 import pandas as pd
 from utils import calcular_tempo_analise
-
-TOKEN = "" 
-HEADERS = {"Authorization": f"token {TOKEN}"}
+import os
+from dotenv import load_dotenv
+load_dotenv()
+token = os.getenv('GITHUB_TOKEN')
+HEADERS = {"Authorization": f"token {token}"}
 
 def get_top_repos(n=200):
     repos = []
