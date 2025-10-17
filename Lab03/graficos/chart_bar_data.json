@@ -1,0 +1,110 @@
+{
+  "RQ01": {
+    "labels": [
+      "Not Merged",
+      "Merged"
+    ],
+    "data": [
+      822.86
+    ],
+    "label": "Média de Linhas Alteradas"
+  },
+  "RQ02": {
+    "labels": [
+      "Not Merged",
+      "Merged"
+    ],
+    "data": [
+      1019.08
+    ],
+    "label": "Média de Tempo de Análise (h)"
+  },
+  "RQ03": {
+    "labels": [
+      "Not Merged",
+      "Merged"
+    ],
+    "data": [
+      820.65
+    ],
+    "label": "Média de Tamanho da Descrição"
+  },
+  "RQ04": {
+    "labels": [
+      "Not Merged",
+      "Merged"
+    ],
+    "data": [
+      0.0
+    ],
+    "label": "Média de Comentários"
+  },
+  "RQ05": {
+    "labels": [
+      "1",
+      "2",
+      "3-5",
+      "6-10",
+      ">10"
+    ],
+    "data": [
+      543.09,
+      1263.42,
+      705.77,
+      561.46,
+      2702.57
+    ],
+    "label": "Média de Linhas Alteradas por Faixa de Revisões"
+  },
+  "RQ06": {
+    "labels": [
+      "1",
+      "2",
+      "3-5",
+      "6-10",
+      ">10"
+    ],
+    "data": [
+      1127.49,
+      690.83,
+      955.94,
+      1123.82,
+      1580.51
+    ],
+    "label": "Média de Tempo de Análise (h) por Faixa de Revisões"
+  },
+  "RQ07": {
+    "labels": [
+      "1",
+      "2",
+      "3-5",
+      "6-10",
+      ">10"
+    ],
+    "data": [
+      752.12,
+      814.06,
+      958.41,
+      942.96,
+      872.33
+    ],
+    "label": "Média de Tamanho da Descrição por Faixa de Revisões"
+  },
+  "RQ08": {
+    "labels": [
+      "1",
+      "2",
+      "3-5",
+      "6-10",
+      ">10"
+    ],
+    "data": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "label": "Média de Comentários por Faixa de Revisões"
+  }
+}

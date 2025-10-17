@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Gráficos do Relatório</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <canvas id="chart1" width="400" height="200"></canvas>
+  <canvas id="chart2" width="400" height="200"></canvas>
+  <script>
+    // Gráfico 1: Tamanho vs. Status de Merge
+    const ctx1 = document.getElementById('chart1').getContext('2d');
+    new Chart(ctx1, { type: 'scatter', data: { datasets: [{ label: 'Merged PRs', data: [{x: 10, y: 1}, {x: 20, y: 1}, {x: 30, y: 1}, {x: 40, y: 0}, {x: 50, y: 0}], backgroundColor: 'rgba(75, 192, 192, 0.6)', borderColor: 'rgba(75, 192, 192, 1)', borderWidth: 1 }, { label: 'Not Merged PRs', data: [{x: 60, y: 0}, {x: 70, y: 0}, {x: 80, y: 0}, {x: 90, y: 1}, {x: 100, y: 0}], backgroundColor: 'rgba(255, 99, 132, 0.6)', borderColor: 'rgba(255, 99, 132, 1)', borderWidth: 1 }] }, options: { scales: { x: { title: { display: true, text: 'Linhas Totais Alteradas' }, beginAtZero: true }, y: { title: { display: true, text: 'Status de Merge (1 = Merged, 0 = Not Merged)' }, beginAtZero: true, ticks: { stepSize: 1, max: 1 } } }, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Tamanho vs. Status de Merge' } } } });
+
+    // Gráfico 2: Tempo vs. Número de Revisões
+    const ctx2 = document.getElementById('chart2').getContext('2d');
+    new Chart(ctx2, { type: 'scatter', data: { datasets: [{ label: 'Revisões por PR', data: [{x: 5, y: 1}, {x: 9.5, y: 2}, {x: 15, y: 2}, {x: 20, y: 3}, {x: 25, y: 4}], backgroundColor: 'rgba(54, 162, 235, 0.6)', borderColor: 'rgba(54, 162, 235, 1)', borderWidth: 1 }] }, options: { scales: { x: { title: { display: true, text: 'Tempo de Análise (horas)' }, beginAtZero: true }, y: { title: { display: true, text: 'Número de Revisões' }, beginAtZero: true, ticks: { stepSize: 1, max: 5 } } }, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Tempo de Análise vs. Número de Revisões' } } } });
+  </script>
+</body>
+</html>

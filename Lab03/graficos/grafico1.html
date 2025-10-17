@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Gráficos do Relatório - Pull Requests</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+</head>
+<body>
+  <h1 style="text-align:center;color:#00ffff;">Relatório de Resultados - Pull Requests</h1>
+  <div id="charts" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;"></div>
+
+  <script>
+    const rqTitles = {
+      RQ01: "RQ01: Tamanho vs Status de Merge",
+      RQ02: "RQ02: Tempo de Análise vs Status de Merge",
+      RQ03: "RQ03: Descrição vs Status de Merge",
+      RQ04: "RQ04: Interações vs Status de Merge",
+      RQ05: "RQ05: Tamanho vs Número de Revisões",
+      RQ06: "RQ06: Tempo de Análise vs Número de Revisões",
+      RQ07: "RQ07: Descrição vs Número de Revisões",
+      RQ08: "RQ08: Interações vs Número de Revisões"
+    };
+
+    const colors = [
+      'rgba(75,192,192,0.6)',
+      'rgba(54,162,235,0.6)',
+      'rgba(255,206,86,0.6)',
+      'rgba(255,99,132,0.6)',
+      'rgba(153,102,255,0.6)',
+      'rgba(255,159,64,0.6)',
+      'rgba(0,255,255,0.6)',
+      'rgba(200,255,200,0.6)'
+    ];
+
+    const data = {
+      "RQ01": {
+        "labels": ["Not Merged", "Merged"],
+        "data": [822.86],
+        "label": "Média de Linhas Alteradas"
+      },
+      "RQ02": {
+        "labels": ["Not Merged", "Merged"],
+        "data": [1019.08],
+        "label": "Média de Tempo de Análise (h)"
+      },
+      "RQ03": {
+        "labels": ["Not Merged", "Merged"],
+        "data": [820.65],
+        "label": "Média de Tamanho da Descrição"
+      },
+      "RQ04": {
+        "labels": ["Not Merged", "Merged"],
+        "data": [1.5, 0.5],
+        "label": "Média de Comentários"
+      },
+      "RQ05": {
+        "labels": ["1", "2", "3-5", "6-10", ">10"],
+        "data": [543.09, 1263.42, 705.77, 561.46, 2702.57],
+        "label": "Média de Linhas Alteradas por Faixa de Revisões"
+      },
+      "RQ06": {
+        "labels": ["1", "2", "3-5", "6-10", ">10"],
+        "data": [1127.49, 690.83, 955.94, 1123.82, 1580.51],
+        "label": "Média de Tempo de Análise (h) por Faixa de Revisões"
+      },
+      "RQ07": {
+        "labels": ["1", "2", "3-5", "6-10", ">10"],
+        "data": [752.12, 814.06, 958.41, 942.96, 872.33],
+        "label": "Média de Tamanho da Descrição por Faixa de Revisões"
+      },
+      "RQ08": {
+        "labels": ["1", "2", "3-5", "6-10", ">10"],
+        "data": [0.2, 0.5, 1.0, 2.0, 3.5],
+        "label": "Média de Comentários por Faixa de Revisões"
+      }
+    };
+
+    async function loadCharts() {
+      const container = document.getElementById('charts');
+      let index = 0;
+
+      for (const [rq, values] of Object.entries(data)) {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <h2 style="text-align:center;margin-top:20px;">${rqTitles[rq]}</h2>
+          <canvas id="${rq}" width="500" height="400"></canvas>`;
+        container.appendChild(div);
+
+        const ctx = document.getElementById(rq).getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: values.labels,
+            datasets: [{
+              label: values.label,
+              data: values.data,
+              backgroundColor: colors[index % colors.length],
+              borderColor: colors[index % colors.length].replace('0.6', '1'),
+              borderWidth: 1
+            }]
+          },
+          options: {
+            plugins: {
+              legend: { display: false },
+              title: { display: true, text: rqTitles[rq] },
+              datalabels: {
+                color: '#fff',
+                anchor: 'end',
+                align: 'top',
+                font: { weight: 'bold' },
+                formatter: value => value.toFixed(1)
+              }
+            },
+            scales: {
+              x: { title: { display: true, text: 'Categorias' } },
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: 'Média' },
+                grid: { color: 'rgba(255,255,255,0.1)' }
+              }
+            }
+          },
+          plugins: [ChartDataLabels]
+        });
+        index++;
+      }
+    }
+
+    loadCharts();
+  </script>
+
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background-color: #222;
+      border-radius: 10px;
+      padding: 10px;
+    }
+  </style>
+</body>
+</html>
