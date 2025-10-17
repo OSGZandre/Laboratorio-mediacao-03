@@ -2,148 +2,35 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <title>Gráficos do Relatório - Pull Requests</title>
+  <title>Gráficos do Relatório</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 </head>
 <body>
-  <h1 style="text-align:center;color:#00ffff;">Relatório de Resultados - Pull Requests</h1>
-  <div id="charts" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;"></div>
-
+  <canvas id="chart1" width="400" height="200"></canvas>
+  <canvas id="chart2" width="400" height="200"></canvas>
   <script>
-    const rqTitles = {
-      RQ01: "RQ01: Tamanho vs Status de Merge",
-      RQ02: "RQ02: Tempo de Análise vs Status de Merge",
-      RQ03: "RQ03: Descrição vs Status de Merge",
-      RQ04: "RQ04: Interações vs Status de Merge",
-      RQ05: "RQ05: Tamanho vs Número de Revisões",
-      RQ06: "RQ06: Tempo de Análise vs Número de Revisões",
-      RQ07: "RQ07: Descrição vs Número de Revisões",
-      RQ08: "RQ08: Interações vs Número de Revisões"
-    };
-
-    const colors = [
-      'rgba(75,192,192,0.6)',
-      'rgba(54,162,235,0.6)',
-      'rgba(255,206,86,0.6)',
-      'rgba(255,99,132,0.6)',
-      'rgba(153,102,255,0.6)',
-      'rgba(255,159,64,0.6)',
-      'rgba(0,255,255,0.6)',
-      'rgba(200,255,200,0.6)'
-    ];
-
-    const data = {
-      "RQ01": {
-        "labels": ["Not Merged", "Merged"],
-        "data": [822.86],
-        "label": "Média de Linhas Alteradas"
+    // Gráfico 1: Tamanho vs. Status de Merge
+    const ctx1 = document.getElementById('chart1').getContext('2d');
+    new Chart(ctx1, {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: 'Merged PRs',
+          data: [{x: 10, y: 1}, {x: 20, y: 1}, {x: 30, y: 1}, {x: 40, y: 0}, {x: 50, y: 0}],
+          backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }, {
+          label: 'Not Merged PRs',
+          data: [{x: 60, y: 0}, {x: 70, y: 0}, {x: 80, y: 0}, {x: 90, y: 1}, {x: 100, y: 0}],
+          backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }]
       },
-      "RQ02": {
-        "labels": ["Not Merged", "Merged"],
-        "data": [1019.08],
-        "label": "Média de Tempo de Análise (h)"
-      },
-      "RQ03": {
-        "labels": ["Not Merged", "Merged"],
-        "data": [820.65],
-        "label": "Média de Tamanho da Descrição"
-      },
-      "RQ04": {
-        "labels": ["Not Merged", "Merged"],
-        "data": [1.5, 0.5],
-        "label": "Média de Comentários"
-      },
-      "RQ05": {
-        "labels": ["1", "2", "3-5", "6-10", ">10"],
-        "data": [543.09, 1263.42, 705.77, 561.46, 2702.57],
-        "label": "Média de Linhas Alteradas por Faixa de Revisões"
-      },
-      "RQ06": {
-        "labels": ["1", "2", "3-5", "6-10", ">10"],
-        "data": [1127.49, 690.83, 955.94, 1123.82, 1580.51],
-        "label": "Média de Tempo de Análise (h) por Faixa de Revisões"
-      },
-      "RQ07": {
-        "labels": ["1", "2", "3-5", "6-10", ">10"],
-        "data": [752.12, 814.06, 958.41, 942.96, 872.33],
-        "label": "Média de Tamanho da Descrição por Faixa de Revisões"
-      },
-      "RQ08": {
-        "labels": ["1", "2", "3-5", "6-10", ">10"],
-        "data": [0.2, 0.5, 1.0, 2.0, 3.5],
-        "label": "Média de Comentários por Faixa de Revisões"
+      options: {
+        scales: { x: { title: { display: true, text: 'Linhas Totais Alteradas' }, beginAtZero: true },
+                  y: { title: { display: true, text: 'Status de Merge (1 = Merged, 0 = Not Merged)' }, beginAtZero: true, ticks: { stepSize: 1, max: 1 } } },
+        plugins: { legend: { position: 'top' }, title: { display: true, text: 'Tamanho vs. Status de Merge' } }
       }
-    };
-
-    async function loadCharts() {
-      const container = document.getElementById('charts');
-      let index = 0;
-
-      for (const [rq, values] of Object.entries(data)) {
-        const div = document.createElement('div');
-        div.innerHTML = `
-          <h2 style="text-align:center;margin-top:20px;">${rqTitles[rq]}</h2>
-          <canvas id="${rq}" width="500" height="400"></canvas>`;
-        container.appendChild(div);
-
-        const ctx = document.getElementById(rq).getContext('2d');
-        new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: values.labels,
-            datasets: [{
-              label: values.label,
-              data: values.data,
-              backgroundColor: colors[index % colors.length],
-              borderColor: colors[index % colors.length].replace('0.6', '1'),
-              borderWidth: 1
-            }]
-          },
-          options: {
-            plugins: {
-              legend: { display: false },
-              title: { display: true, text: rqTitles[rq] },
-              datalabels: {
-                color: '#fff',
-                anchor: 'end',
-                align: 'top',
-                font: { weight: 'bold' },
-                formatter: value => value.toFixed(1)
-              }
-            },
-            scales: {
-              x: { title: { display: true, text: 'Categorias' } },
-              y: {
-                beginAtZero: true,
-                title: { display: true, text: 'Média' },
-                grid: { color: 'rgba(255,255,255,0.1)' }
-              }
-            }
-          },
-          plugins: [ChartDataLabels]
-        });
-        index++;
-      }
-    }
-
-    loadCharts();
-  </script>
-
-  <style>
-    body {
-      background-color: #111;
-      color: white;
-      font-family: Arial, sans-serif;
-      margin: 30px;
-    }
-    canvas {
-      display: block;
-      margin: 0 auto;
-      background-color: #222;
-      border-radius: 10px;
-      padding: 10px;
-    }
-  </style>
-</body>
-</html>
+    });
